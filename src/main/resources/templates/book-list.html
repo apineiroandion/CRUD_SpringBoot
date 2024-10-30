@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <div class="row">
+            <div class="col-2">
+
+            </div>
+            <div class="col-8">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tittle</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="book: ${books}">
+                        <th scope="row" th:text="${book.id}"></th>
+                        <td th:text="${book.tittle}"></td>
+                        <td th:text="${book.author}"></td>
+                        <td th:text="${book.price}"></td>
+                        <td>
+                            <a class="btn btn-primary" th:href="@{/books/view/{id}(id=${book.id})}">Ver</a>
+                            <a class="btn succes" th:href="@{/books/edit/{id}(id=${book.id})}">Editar</a>
+                            <a class="btn danger" th:href="@{/books/delete/{id}(id=${book.id})}">Borrar</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-2">
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
