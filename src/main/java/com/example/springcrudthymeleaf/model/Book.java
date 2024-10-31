@@ -19,6 +19,9 @@ public class Book {
     private Double price;
 
     public Book() {
+    }
+
+    public Book(Long id, String title, String author, Double price) {
         this.id = id;
         this.title = title;
         this.author = author;

@@ -24,13 +24,16 @@ public class BookController {
     @GetMapping("/books")
     public String findAll(Model model){
         model.addAttribute("books", repository.findAll());
-        return "add-list";
+        return "book-list";
     }
 
-    @GetMapping("/books/{id}")
-    public String findById(Model model, @PathVariable Long id){
-        model.addAttribute("books", repository.findById(id));
-        return "add-list";
+    @GetMapping("/books/view/{id}")
+    public String findById(Model model, @PathVariable Long id) {
+        repository.findById(id).ifPresentOrElse(
+                book -> model.addAttribute("book", book), // Añadir libro al modelo
+                () -> model.addAttribute("error", "El libro no se encontró.") // Manejar el caso de no encontrar el libro
+        );
+        return "book-view"; // Regresa a la plantilla
     }
 
     @GetMapping("/books/form")
