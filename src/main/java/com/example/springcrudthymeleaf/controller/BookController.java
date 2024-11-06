@@ -55,7 +55,6 @@ public class BookController {
     @PostMapping("/books")
     public String create (@ModelAttribute Book book){
         if(book.getId() != null){
-            //actualizacion
             repository.findById(book.getId()).ifPresent(b ->{
                 b.setTitle(book.getTitle());
                 b.setAuthor(book.getAuthor());
@@ -68,6 +67,7 @@ public class BookController {
         }
         return "redirect:/books";
     }
+
 
     @GetMapping("/books/delete/{id}")
     public String deleteById(@PathVariable Long id){
