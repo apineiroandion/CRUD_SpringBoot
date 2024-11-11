@@ -2,6 +2,7 @@ package com.example.springcrudthymeleaf.controller;
 
 import com.example.springcrudthymeleaf.model.Book;
 import com.example.springcrudthymeleaf.repository.BookRepository;
+import com.example.springcrudthymeleaf.util.XmlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+
+import javax.xml.bind.JAXBException;
+import java.util.List;
 
 @Controller
 public class BookController {
@@ -52,22 +57,33 @@ public class BookController {
         }
     }
 
+//    @PostMapping("/books")
+//    public String create (@ModelAttribute Book book){
+//        if(book.getId() != null){
+//            repository.findById(book.getId()).ifPresent(b ->{
+//                b.setTitle(book.getTitle());
+//                b.setAuthor(book.getAuthor());
+//                b.setPrice(book.getPrice());
+//                repository.save(b);
+//            });
+//        }else {
+//            //creacion
+//            repository.save(book);
+//        }
+//        return "redirect:/books";
+//    }
+
     @PostMapping("/books")
-    public String create (@ModelAttribute Book book){
-        if(book.getId() != null){
-            repository.findById(book.getId()).ifPresent(b ->{
-                b.setTitle(book.getTitle());
-                b.setAuthor(book.getAuthor());
-                b.setPrice(book.getPrice());
-                repository.save(b);
-            });
-        }else {
-            //creacion
-            repository.save(book);
+    public String create(@ModelAttribute Book book) {
+        repository.save(book);
+        try {
+            List<Book> books = repository.findAll();
+            XmlUtil.saveBookToXml(book, "books/books.xml");
+        } catch (JAXBException e) {
+            e.printStackTrace();
         }
         return "redirect:/books";
     }
-
 
     @GetMapping("/books/delete/{id}")
     public String deleteById(@PathVariable Long id){
